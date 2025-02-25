@@ -31,9 +31,14 @@ def scrape_data_point():
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
         target_element = soup.find("a", class_="frontpage-link small-link pub-link")
-        print(target_element)
+        loguru.logger.info(f"target_element: {target_element}")
         data_point = "" if target_element is None else target_element.get_text()
         loguru.logger.info(f"Data point: {data_point}")
+
+        all_links = soup.find_all("a", class_="frontpage-link small-link pub-link")
+        for link in all_links:
+            loguru.logger.info(f"link found: {link}")
+            
         return data_point
 
 
